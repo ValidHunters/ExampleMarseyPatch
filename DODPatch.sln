@@ -1,0 +1,16 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DODPatch", "DODPatch\DODPatch.csproj", "{208AA7DB-8CEC-4521-8242-DA9BF4A793C5}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{208AA7DB-8CEC-4521-8242-DA9BF4A793C5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{208AA7DB-8CEC-4521-8242-DA9BF4A793C5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{208AA7DB-8CEC-4521-8242-DA9BF4A793C5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{208AA7DB-8CEC-4521-8242-DA9BF4A793C5}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
