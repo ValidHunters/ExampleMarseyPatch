@@ -3,7 +3,9 @@ using HarmonyLib;
 
 public static class MarseyPatch
 {
-    public static string ReqAsm = "RC"; // This defines which assembly is required for this patch. RC stands for Robust.Client, CC stands for Content.Client, et cetera.
+    public static string ReqAsm = "RC"; // This defines which assembly is required for this patch.
+                                        // RC=Robust.Client,CS=Content.Shared,CC=Content.Client
+                                        // You get the idea
     public static Assembly TargetAssembly = null; // This is defined by the MarseyPatcher, as it has access to the assemblies. 
     public static string Name = "FOV Disabler";
     public static string Description = "Disables Draw Occlusion Depth, disabling FOV and shadow rendering.";
