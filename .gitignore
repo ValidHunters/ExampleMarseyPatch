@@ -1,4 +1,4 @@
 .git
 .idea
-DODPatch/bin
-DODPatch/obj
+*/bin
+*/obj
