@@ -3,10 +3,12 @@ using HarmonyLib;
 
 public static class MarseyPatch
 {
-    public static string ReqAsm = "CC"; // This defines which assembly is required for this patch.
-    // RC=Robust.Client,CS=Content.Shared,CC=Content.Client
-    // You get the idea
-    public static Assembly TargetAssembly = null; // This is defined by the MarseyPatcher, as it has access to the assemblies. 
+    // This is defined by the MarseyPatcher, as it has access to the assemblies.
+    public static Assembly RobustClient = null; 
+    public static Assembly RobustShared = null;
+    public static Assembly ContentClient = null;
+    public static Assembly ContentShared = null;
+    
     public static string Name = "Flash Overlay disabler";
     public static string Description = "Disables flash overlay.";
 }
@@ -17,7 +19,7 @@ public static class FlashOverlayPatch
     // This must return a MethodInfo for the function you're patching. In this case it's the function called "DrawOcclusionDepth" located in the "Robust.Client.Graphics.Clyde.Clyde" type.
     private static MethodBase TargetMethod() 
     {
-        var FlashOverlay = MarseyPatch.TargetAssembly.GetType("Content.Client.Flash.FlashOverlay")!;
+        var FlashOverlay = MarseyPatch.ContentClient.GetType("Content.Client.Flash.FlashOverlay")!;
         return FlashOverlay.GetMethod("Draw", BindingFlags.NonPublic | BindingFlags.Instance);
     }
 
