@@ -6,6 +6,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FlashPatch", "FlashPatch\Fl
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Rethemer", "Rethemer\Rethemer.csproj", "{15AC1899-5AD5-486F-9E08-ADD33F5D6794}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BasePatch", "BasePatch\BasePatch.csproj", "{2205E5DD-0FA0-41FA-A3D5-F1AE10AF8AF0}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -24,5 +26,9 @@ Global
 		{15AC1899-5AD5-486F-9E08-ADD33F5D6794}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{15AC1899-5AD5-486F-9E08-ADD33F5D6794}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{15AC1899-5AD5-486F-9E08-ADD33F5D6794}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2205E5DD-0FA0-41FA-A3D5-F1AE10AF8AF0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2205E5DD-0FA0-41FA-A3D5-F1AE10AF8AF0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2205E5DD-0FA0-41FA-A3D5-F1AE10AF8AF0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2205E5DD-0FA0-41FA-A3D5-F1AE10AF8AF0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
