@@ -6,7 +6,6 @@ using HarmonyLib;
 
 /// <summary>
 /// This class holds the data used by all 3 parts - the launcher, the loader and the patches themselves.
-/// 
 /// </summary>
 public static class MarseyPatch
 {
