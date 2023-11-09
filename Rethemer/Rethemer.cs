@@ -29,6 +29,31 @@ public static class MarseyPatch
     public static string Description = "Changes the game's theme to your colors";
 }
 
+// This is a logging class used by the patch to send logging messages to the loader.
+//           logging                                 logging
+public static class MarseyLogger
+{
+    // Info enums are identical to those in the loader however they cant be easily casted between the two
+    public enum LogType
+    {
+        INFO,
+        WARN,
+        FATL,
+        DEBG
+    }
+
+    // Delegate gets casted to Marsey::Utility::Log(AssemblyName, string) at runtime by the loader
+    public delegate void Forward(AssemblyName asm, string message);
+    
+    public static Forward? logDelegate;
+    
+    /// <see cref="Restyle.Finalizer"/>
+    public static void Log(LogType type, string message)
+    {
+        logDelegate?.Invoke(Assembly.GetExecutingAssembly().GetName(), $"[{type.ToString()}] {message}");
+    }
+}
+
 [HarmonyPatch]
 public static class Restyle
 {
@@ -58,9 +83,9 @@ public static class Restyle
     static void Finalizer(Exception __exception)
     {
         if (__exception != null)
-            Console.WriteLine($"[RETHEMER] Style failed patch. \n {__exception.Message}");
+            MarseyLogger.Log(MarseyLogger.LogType.FATL, $"StyleSheet failed patch. \n {__exception.Message}");
         else
-            Console.WriteLine("[RETHEMER] Style patched.");
+            MarseyLogger.Log(MarseyLogger.LogType.INFO, "StyleSheet patched.");
     }
 }
 
@@ -87,8 +112,8 @@ public static class Rebutton
     static void Finalizer(Exception __exception)
     {
         if (__exception != null)
-            Console.WriteLine($"[RETHEMER] MenuButton failed patch. \n {__exception.Message}");
+            MarseyLogger.Log(MarseyLogger.LogType.FATL, $"MenuButton failed patch. \n {__exception.Message}");
         else
-            Console.WriteLine("[RETHEMER] MenuButton patched.");
+            MarseyLogger.Log(MarseyLogger.LogType.INFO, "MenuButton patched.");
     }
 }
