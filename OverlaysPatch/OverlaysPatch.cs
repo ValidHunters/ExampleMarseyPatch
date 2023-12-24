@@ -18,7 +18,8 @@ public static class MarseyPatch
     	[HarmonyTargetMethods]
     	private static IEnumerable<MethodBase> TargetMethods() 
         {
-            var tp = MarseyPatch.RobustClient;
+            Assembly? tp = MarseyPatch.RobustClient;
+            if (tp == null) yield break;
             Type? DrunkOverlay = tp.GetType("Content.Client.Drunk.DrunkOverlay"); // Disable drunk by disabling Draw https://github.com/space-wizards/space-station-14/blob/master/Content.Client/Drunk/DrunkOverlay.cs
             if (DrunkOverlay != null)
             {
