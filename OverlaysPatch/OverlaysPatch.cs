@@ -3,10 +3,10 @@ using HarmonyLib;
 
 public static class MarseyPatch
 {
-    public static Assembly RobustClient = null; 
-    public static Assembly RobustShared = null;
-    public static Assembly ContentClient = null;
-    public static Assembly ContentShared = null;
+    public static Assembly? RobustClient = null; 
+    public static Assembly? RobustShared = null;
+    public static Assembly? ContentClient = null;
+    public static Assembly? ContentShared = null;
     
     public static string Name = "Overlays Patch";
     public static string Description = "Patches: DrunkOverlay, RainbowOverlay, BlurryVisionOverlay, BlindOverlay";
