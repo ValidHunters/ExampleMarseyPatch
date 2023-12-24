@@ -59,6 +59,6 @@ public static class MarseyPatch
             }
         }
 	}
-	[HarmonyPostfix]
-	private static bool Postfix(bool value) => false;
+	[HarmonyPrefix]
+	private static bool Prefix(bool value) => false;
 }
