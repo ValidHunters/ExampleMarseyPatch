@@ -5,6 +5,7 @@ public static class MarseyPatch
 {
     public static string Name = "Overlays Patch v2";
     public static string Description = "Working now! Patches: DrunkOverlay, RainbowOverlay, BlurryVisionOverlay, BlindOverlay";
+    public static bool ignoreFields = true;
 }
 
 public static class MarseyLogger
