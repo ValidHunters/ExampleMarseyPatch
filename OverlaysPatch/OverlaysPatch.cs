@@ -3,10 +3,10 @@ using HarmonyLib;
 
 public static class MarseyPatch
 {
-    public static string Name = "Overlays Patch v2";
+    public static string Name = "Overlays patch";
 
     public static string Description =
-        "Working now! The patch disables rendering of these overlays: DrunkOverlay, RainbowOverlay, BlurryVisionOverlay, BlindOverlay";
+        "Disables Draw on multiple overlays";
 
     public static bool ignoreFields = true;
 }
