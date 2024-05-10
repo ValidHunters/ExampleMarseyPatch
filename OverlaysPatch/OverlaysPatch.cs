@@ -5,7 +5,8 @@ public static class MarseyPatch
 {
     public static string Name = "Overlays Patch v2";
 
-    public static string Description = "Working now! The patch disables rendering of these overlays: DrunkOverlay, RainbowOverlay, BlurryVisionOverlay, BlindOverlay";
+    public static string Description =
+        "Working now! The patch disables rendering of these overlays: DrunkOverlay, RainbowOverlay, BlurryVisionOverlay, BlindOverlay";
 
     public static bool ignoreFields = true;
 }
@@ -23,7 +24,6 @@ public static class OverlaysPatch
         return AccessTools.Method(AccessTools.TypeByName(type), "Draw");
     }
 
-    [HarmonyTargetMethods]
     private static IEnumerable<MethodBase> TargetMethods()
     {
         yield return GetOverlayDraw("Content.Client.Drunk.DrunkOverlay");
@@ -33,5 +33,5 @@ public static class OverlaysPatch
     }
 
     [HarmonyPrefix]
-    static bool Prefix() => true;
+    static bool Prefix() => false;
 }
