@@ -42,7 +42,7 @@ public static class OverlaysPatch
             return null;
         }
 
-        var method = AccessTools.Method(tp, "BeforeDraw");
+        var method = AccessTools.Method(tp, "Draw");
         if (method != null) return method;
         MarseyLogger.Log(MarseyLogger.LogType.WARN, $"Can't find BeforeDraw method in {type}.");
         return null;
