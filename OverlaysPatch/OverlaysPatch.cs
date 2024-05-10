@@ -3,11 +3,6 @@ using HarmonyLib;
 
 public static class MarseyPatch
 {
-    public static Assembly? RobustClient = null;
-    public static Assembly? RobustShared = null;
-    public static Assembly? ContentClient = null;
-    public static Assembly? ContentShared = null;
-
     public static string Name = "Overlays Patch v2";
     public static string Description = "Working now! Patches: DrunkOverlay, RainbowOverlay, BlurryVisionOverlay, BlindOverlay";
 }
@@ -39,7 +34,7 @@ public static class OverlaysPatch
     private static MethodInfo? GetOverlayBeforeDraw(string type)
         // Disable overlays by disabling BeforeDraw. For example: https://github.com/space-wizards/space-station-14/blob/master/Content.Client/Drunk/DrunkOverlay.cs
     {
-        var tp = MarseyPatch.ContentClient!.GetType(type);
+        var tp = AccessTools.TypeByName(type);
         if (tp == null)
         {
             MarseyLogger.Log(MarseyLogger.LogType.WARN, $"Can't find overlay {type}.");
@@ -54,12 +49,6 @@ public static class OverlaysPatch
 
     private static IEnumerable<MethodBase> TargetMethods()
     {
-        if (MarseyPatch.ContentClient == null)
-        {
-            MarseyLogger.Log(MarseyLogger.LogType.WARN, "Can't find ContentClient. Maybe it hasn't loaded yet?");
-            yield break;
-        }
-
         var drunkOverlay = GetOverlayBeforeDraw("Content.Client.Drunk.DrunkOverlay");
         if (drunkOverlay != null)
             yield return drunkOverlay;
