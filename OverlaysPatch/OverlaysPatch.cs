@@ -11,14 +11,13 @@ public static class MarseyPatch
     public static bool ignoreFields = true;
 }
 
+
 [HarmonyPatch]
+/// <summary>
+///  Disable overlays by disabling Draw. For example: https://github.com/space-wizards/space-station-14/blob/master/Content.Client/Drunk/DrunkOverlay.cs
+/// </summary>
 public static class OverlaysPatch
 {
-    /// <summary>
-    ///  Disable overlays by disabling Draw. For example: https://github.com/space-wizards/space-station-14/blob/master/Content.Client/Drunk/DrunkOverlay.cs
-    /// </summary>
-    /// <param name="type">Path to type</param>
-    /// <returns>MethodInfo</returns>
     private static MethodInfo GetOverlayDraw(string type)
     {
         return AccessTools.Method(AccessTools.TypeByName(type), "Draw");
