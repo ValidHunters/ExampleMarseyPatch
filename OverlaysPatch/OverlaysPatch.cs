@@ -3,62 +3,80 @@ using HarmonyLib;
 
 public static class MarseyPatch
 {
-    public static Assembly? RobustClient = null; 
+    public static Assembly? RobustClient = null;
     public static Assembly? RobustShared = null;
     public static Assembly? ContentClient = null;
     public static Assembly? ContentShared = null;
-    
-    public static string Name = "Overlays Patch";
-    public static string Description = "Patches: DrunkOverlay, RainbowOverlay, BlurryVisionOverlay, BlindOverlay";
+
+    public static string Name = "Overlays Patch v2";
+    public static string Description = "Working now! Patches: DrunkOverlay, RainbowOverlay, BlurryVisionOverlay, BlindOverlay";
+}
+
+public static class MarseyLogger
+{
+    public enum LogType
+    {
+        INFO,
+        WARN,
+        FATL,
+        DEBG
+    }
+
+    public delegate void Forward(AssemblyName asm, string message);
+
+    public static Forward? logDelegate;
+
+    /// <see cref="BasePatch.Finalizer"/>
+    public static void Log(LogType type, string message)
+    {
+        logDelegate?.Invoke(Assembly.GetExecutingAssembly().GetName(), $"[{type.ToString()}] {message}");
+    }
 }
 
 [HarmonyPatch]
-    public static class OverlaysPatch 
-    {        
-    	[HarmonyTargetMethods]
-    	private static IEnumerable<MethodBase> TargetMethods() 
-        {
-            Assembly? tp = MarseyPatch.RobustClient;
-            if (tp == null) yield break;
-            Type? DrunkOverlay = tp.GetType("Content.Client.Drunk.DrunkOverlay"); // Disable drunk by disabling Draw https://github.com/space-wizards/space-station-14/blob/master/Content.Client/Drunk/DrunkOverlay.cs
-            if (DrunkOverlay != null)
-            {
-            	MethodInfo? method = DrunkOverlay.GetMethod("Draw", BindingFlags.NonPublic | BindingFlags.Instance);
-            	if (method != null) 
-            	{
-            		yield return method;
-            	}
-            }
-            Type? RainbowOverlay = tp.GetType("Content.Client.Drugs.RainbowOverlay"); // Disable space drug effect by disabling method Draw https://github.com/space-wizards/space-station-14/blob/master/Content.Client/Drugs/RainbowOverlay.cs
-            if (RainbowOverlay != null)
-            {
-            	MethodInfo? method = RainbowOverlay.GetMethod("Draw", BindingFlags.NonPublic | BindingFlags.Instance);
-            	if (method != null) 
-            	{
-            		yield return method;
-            	}
-            }
-            Type? BlurryVisionOverlay = tp.GetType("Content.Client.Eye.Blinding.BlurryVisionOverlay"); // Disable the blurred-eye effect by turning off the Draw method https://github.com/space-wizards/space-station-14/blob/master/Content.Client/Eye
-            if (BlurryVisionOverlay != null)
-            {
-            	MethodInfo? method = BlurryVisionOverlay.GetMethod("Draw", BindingFlags.NonPublic | BindingFlags.Instance);
-            	if (method != null) 
-            	{
-            		yield return method;
-            	}
-            }
-            Type? BlindOverlay = tp.GetType("Content.Client.Eye.Blinding.BlindOverlay"); // Disable the effect of blinding by turning off the Draw method https://github.com/space-wizards/space-station-14/blob/master/Content.Client/Eye/Blinding/BlindOverlay.cs
+public static class OverlaysPatch
+{
+    private static MethodInfo? GetOverlayBeforeDraw(string type)
+        // Disable overlays by disabling BeforeDraw. For example: https://github.com/space-wizards/space-station-14/blob/master/Content.Client/Drunk/DrunkOverlay.cs
     {
-            if (BlindOverlay != null)
-            {
-            	MethodInfo? method = BlindOverlay.GetMethod("Draw", BindingFlags.NonPublic | BindingFlags.Instance);
-            	if (method != null) 
-            	{
-            		yield return method;
-            	}
-            }
+        var tp = MarseyPatch.ContentClient!.GetType(type);
+        if (tp == null)
+        {
+            MarseyLogger.Log(MarseyLogger.LogType.WARN, $"Can't find overlay {type}.");
+            return null;
         }
-	}
-	[HarmonyPrefix]
-	private static bool Prefix() => false;
+
+        var method = tp.GetMethod("BeforeDraw", BindingFlags.NonPublic | BindingFlags.Instance);
+        if (method != null) return method;
+        MarseyLogger.Log(MarseyLogger.LogType.WARN, $"Can't find BeforeDraw method in {type}.");
+        return null;
+    }
+
+    private static IEnumerable<MethodBase> TargetMethods()
+    {
+        if (MarseyPatch.ContentClient == null)
+        {
+            MarseyLogger.Log(MarseyLogger.LogType.WARN, "Can't find ContentClient. Maybe it hasn't loaded yet?");
+            yield break;
+        }
+
+        var drunkOverlay = GetOverlayBeforeDraw("Content.Client.Drunk.DrunkOverlay");
+        if (drunkOverlay != null)
+            yield return drunkOverlay;
+
+        var rainbowOverlay = GetOverlayBeforeDraw("Content.Client.Drugs.RainbowOverlay");
+        if (rainbowOverlay != null)
+            yield return rainbowOverlay;
+
+        var blurryVisionOverlay = GetOverlayBeforeDraw("Content.Client.Eye.Blinding.BlurryVisionOverlay");
+        if (blurryVisionOverlay != null)
+            yield return blurryVisionOverlay;
+
+        var blindOverlay = GetOverlayBeforeDraw("Content.Client.Eye.Blinding.BlindOverlay");
+        if (blindOverlay != null)
+            yield return blindOverlay;
+    }
+
+    [HarmonyPrefix]
+    static bool Prefix() => true;
 }
